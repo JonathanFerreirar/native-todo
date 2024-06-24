@@ -12,7 +12,7 @@ const HomeScreen = () => {
     setTab(tab)
   }
   return (
-    <ThemedView className="mx-auto mt-7 w-full max-w-[320px] flex-1 items-center justify-center">
+    <ThemedView className="mx-auto h-screen w-full flex-1 items-center justify-center p-5">
       <TabsComponent onPressTab={handleChangeTab}>
         {tab === 'work' && (
           <React.Fragment>

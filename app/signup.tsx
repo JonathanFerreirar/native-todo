@@ -11,7 +11,7 @@ import ThemedView from '@/primitive/ThemedView'
 
 import Logo from '../assets/images/logo.png'
 
-const Login = () => {
+const Signup = () => {
   const { isAuth, setIsAuth } = useAuth()
 
   if (isAuth) {
@@ -30,13 +30,16 @@ const Login = () => {
         <View className="w-full flex-col items-center space-y-5">
           <Input placeholder="email@gmail.com" />
           <Input placeholder="password" />
+          <Input placeholder="confirm password" />
         </View>
 
-        <Button customStyle="mt-8">Sign-in</Button>
-        <Link href="/signup" asChild>
+        <Button variant="primary" customStyle="mt-8">
+          <Link href="/signup">Sign-up</Link>
+        </Button>
+        <Link href="/" asChild>
           <Button variant="link" customStyle="mt-8">
             <Text className="text-sm">
-              Do You need to <Text className="text-primary">register?</Text>
+              Already have an <Text className="text-primary">account?</Text>
             </Text>
           </Button>
         </Link>
@@ -62,4 +65,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Signup

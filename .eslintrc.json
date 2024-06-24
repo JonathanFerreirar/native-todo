@@ -21,7 +21,8 @@
     "*.js"
   ],
   "rules": {
-    "@typescript-eslint/consistent-type-definitions": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/no-unused-vars": "off",
     "import/prefer-default-export": "off",
     "tailwindcss/classnames-order": "warn",
     "react/jsx-fragments": [

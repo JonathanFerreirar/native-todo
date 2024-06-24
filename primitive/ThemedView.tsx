@@ -18,7 +18,9 @@ const ThemedView = ({
     'background',
   )
 
-  return <View style={[{ backgroundColor }, style]} {...otherProps} />
+  return (
+    <View style={[{ backgroundColor, padding: 5 }, style]} {...otherProps} />
+  )
 }
 
 export default ThemedView
