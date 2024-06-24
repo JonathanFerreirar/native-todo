@@ -1,14 +1,47 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 
-const Tabs = () => {
-  const [tab, setTab] = React.useState()
+import ButtonTab from './fragments/button'
+
+export type Tabs = 'work' | 'projects'
+
+type TabsProps = React.PropsWithChildren & {
+  onPressTab: (tab: Tabs) => void
+}
+
+const TabsComponent = ({ onPressTab, children }: TabsProps) => {
+  const [tab, setTab] = React.useState<Tabs>('work')
+
+  const handleTabChange = (tab: Tabs) => {
+    setTab(tab)
+    onPressTab(tab)
+  }
 
   return (
     <View className="w-full flex-1">
-      <Text className="text-2xl text-white">tabs está aqui man</Text>
+      <View className="flex-row items-center justify-between">
+        <ButtonTab
+          tab="work"
+          currentTab={tab}
+          onPress={() => {
+            handleTabChange('work')
+          }}
+        >
+          Work
+        </ButtonTab>
+        <ButtonTab
+          tab="projects"
+          currentTab={tab}
+          onPress={() => {
+            handleTabChange('projects')
+          }}
+        >
+          Projects
+        </ButtonTab>
+      </View>
+      <View className="p-2 pt-10">{children}</View>
     </View>
   )
 }
 
-export default Tabs
+export default TabsComponent
