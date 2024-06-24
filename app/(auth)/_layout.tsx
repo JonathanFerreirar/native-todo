@@ -1,13 +1,19 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { Tabs } from 'expo-router'
+import { Pressable, Text, View } from 'react-native'
+import { Redirect, Tabs } from 'expo-router'
 
 import { Colors } from '@/constants/Colors'
+import { useAuth } from '@/context/auth'
 import { useColorScheme } from '@/hooks/useColorScheme'
 import TabBarIcon from '@/navigation/TabBarIcon'
 
 const TabLayout = () => {
   const colorScheme = useColorScheme()
+  const { isAuth, setIsAuth } = useAuth()
+
+  if (!isAuth) {
+    return <Redirect href="/" />
+  }
 
   return (
     <Tabs
@@ -16,7 +22,7 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="work"
         options={{
           title: '',
           tabBarLabel: 'To-do',
@@ -42,7 +48,10 @@ const TabLayout = () => {
           },
           headerRight: () => {
             return (
-              <View
+              <Pressable
+                onPress={() => {
+                  setIsAuth(false)
+                }}
                 style={{
                   gap: 10,
                   marginRight: 20,
@@ -58,7 +67,7 @@ const TabLayout = () => {
                   Sair
                 </Text>
                 <TabBarIcon size={20} name="log-out-outline" color={'#fff'} />
-              </View>
+              </Pressable>
             )
           },
         }}
@@ -92,7 +101,10 @@ const TabLayout = () => {
           },
           headerRight: () => {
             return (
-              <View
+              <Pressable
+                onPress={() => {
+                  setIsAuth(false)
+                }}
                 style={{
                   gap: 10,
                   marginRight: 20,
@@ -108,7 +120,7 @@ const TabLayout = () => {
                   Sair
                 </Text>
                 <TabBarIcon size={20} name="log-out-outline" color={'#fff'} />
-              </View>
+              </Pressable>
             )
           },
         }}

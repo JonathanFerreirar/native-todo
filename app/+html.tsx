@@ -16,7 +16,13 @@ const Root = ({ children }: react.PropsWithChildren) => {
 
         <style dangerouslySetInnerHTML={{ __html: responsiveBackground }} />
       </head>
-      <body>{children}</body>
+      <body
+        style={{
+          background: '#030013',
+        }}
+      >
+        {children}
+      </body>
     </html>
   )
 }
@@ -25,10 +31,10 @@ export default Root
 
 const responsiveBackground = `
 body {
-  background-color: #fff;
+  background-color: #030013;
 }
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #000;
+    background-color: #030013;
   }
 }`
