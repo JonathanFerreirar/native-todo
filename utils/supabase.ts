@@ -1,4 +1,3 @@
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@env'
 import { createClient } from '@supabase/supabase-js'
 import * as SecureStore from 'expo-secure-store'
 
@@ -16,13 +15,17 @@ const ExpoSecureStoreAdapter = {
   },
 }
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-  auth: {
-    storage: ExpoSecureStoreAdapter as typeof ExpoSecureStoreAdapter,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
+const supabase = createClient(
+  process.env.EXPO_PUBLIC_SUPABASE_URL as string,
+  process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY as string,
+  {
+    auth: {
+      storage: ExpoSecureStoreAdapter as typeof ExpoSecureStoreAdapter,
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: false,
+    },
   },
-})
+)
 
 export default supabase

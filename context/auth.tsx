@@ -8,7 +8,9 @@ import * as WebBrowser from 'expo-web-browser'
 
 import supabase from '@/utils/supabase'
 
-import { AuthProviderProps, EmailAndPasswordProps } from './types'
+import { AuthProviderProps, EmailAndPasswordProps } from './authTypes'
+
+WebBrowser.maybeCompleteAuthSession()
 
 const redirectTo = makeRedirectUri()
 

@@ -8,7 +8,7 @@ const primaryColor = '#F6640A'
 export const Colors = {
   light: {
     white: '#11181C',
-    background: '#fff',
+    background: '#030013',
     primary: primaryColor,
     icon: '#687076',
     tabIconDefault: '#687076',

@@ -1,16 +1,16 @@
-import { type ViewProps, View } from 'react-native'
+import { ScrollView, ScrollViewProps } from 'react-native'
 
 import { useThemeColor } from '@/hooks/useThemeColor'
 
-export type ThemedViewProps = ViewProps & {
+export type ThemedViewProps = ScrollViewProps & {
   lightColor?: string
   darkColor?: string
 }
 
 const ThemedView = ({
-  style,
   lightColor,
   darkColor,
+  style,
   ...otherProps
 }: ThemedViewProps) => {
   const backgroundColor = useThemeColor(
@@ -19,7 +19,11 @@ const ThemedView = ({
   )
 
   return (
-    <View style={[{ backgroundColor, padding: 5 }, style]} {...otherProps} />
+    <ScrollView
+      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={[{ backgroundColor, padding: 5 }, style]}
+      {...otherProps}
+    />
   )
 }
 

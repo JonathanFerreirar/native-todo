@@ -6,13 +6,6 @@ module.exports = function (api) {
     ],
     plugins: [
       "nativewind/babel",
-      [
-        'module:react-native-dotenv',
-        {
-          moduleName: '@env',
-          allowUndefined: false,
-        },
-      ],     
     ],
   };
 };
