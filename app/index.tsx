@@ -12,10 +12,20 @@ import ThemedView from '@/primitive/ThemedView'
 import Logo from '../assets/images/logo.png'
 
 const Login = () => {
-  const { isAuth, setIsAuth } = useAuth()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
+
+  const { isAuth, signin, SigninAndSinupWithGithub } = useAuth()
 
   if (isAuth) {
     return <Redirect href="(auth)/work" />
+  }
+
+  const handleSignin = async () => {
+    await signin({
+      email,
+      password,
+    })
   }
 
   return (
@@ -28,11 +38,23 @@ const Login = () => {
         />
 
         <View className="w-full flex-col items-center space-y-5">
-          <Input placeholder="email@gmail.com" />
-          <Input placeholder="password" />
+          <Input
+            placeholder="email@gmail.com"
+            onChangeText={(e) => {
+              setEmail(e)
+            }}
+          />
+          <Input
+            placeholder="password"
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
+          />
         </View>
 
-        <Button customStyle="mt-8">Sign-in</Button>
+        <Button customStyle="mt-8" onPress={handleSignin}>
+          Sign-in
+        </Button>
         <Link href="/signup" asChild>
           <Button variant="link" customStyle="mt-8">
             <Text className="text-sm">
@@ -49,9 +71,7 @@ const Login = () => {
 
         <Pressable
           className="mt-10 h-[60px] w-[60px] items-center justify-center rounded-full"
-          onPress={() => {
-            setIsAuth(true)
-          }}
+          onPress={SigninAndSinupWithGithub}
         >
           <View className="w-full flex-row items-center justify-center">
             <AntDesign name="github" size={60} color="white" />

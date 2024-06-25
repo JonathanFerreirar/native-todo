@@ -16,7 +16,7 @@ const ExpoSecureStoreAdapter = {
   },
 }
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
     storage: ExpoSecureStoreAdapter as typeof ExpoSecureStoreAdapter,
     autoRefreshToken: true,
@@ -24,3 +24,5 @@ export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     detectSessionInUrl: false,
   },
 })
+
+export default supabase

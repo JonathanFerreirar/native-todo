@@ -9,10 +9,14 @@ import TabBarIcon from '@/navigation/TabBarIcon'
 
 const TabLayout = () => {
   const colorScheme = useColorScheme()
-  const { isAuth, setIsAuth } = useAuth()
+  const { isAuth, logout } = useAuth()
 
   if (!isAuth) {
     return <Redirect href="/" />
+  }
+
+  const handleLogout = async () => {
+    await logout()
   }
 
   return (
@@ -49,9 +53,7 @@ const TabLayout = () => {
           headerRight: () => {
             return (
               <Pressable
-                onPress={() => {
-                  setIsAuth(false)
-                }}
+                onPress={handleLogout}
                 style={{
                   gap: 10,
                   marginRight: 20,
@@ -102,9 +104,7 @@ const TabLayout = () => {
           headerRight: () => {
             return (
               <Pressable
-                onPress={() => {
-                  setIsAuth(false)
-                }}
+                onPress={handleLogout}
                 style={{
                   gap: 10,
                   marginRight: 20,

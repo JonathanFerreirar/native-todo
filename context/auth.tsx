@@ -1,10 +1,27 @@
+/* eslint-disable camelcase */
 import React from 'react'
+import { Linking } from 'react-native'
+import { makeRedirectUri } from 'expo-auth-session'
+import * as QueryParams from 'expo-auth-session/build/QueryParams'
+import { Redirect } from 'expo-router'
+import * as WebBrowser from 'expo-web-browser'
 
-type AuthProviderProps = React.PropsWithChildren
+import supabase from '@/utils/supabase'
+
+import { AuthProviderProps, EmailAndPasswordProps } from './types'
+
+const redirectTo = makeRedirectUri()
+
+type User = null | any
 
 type AuthContextProps = {
+  user: User
   isAuth: boolean
+  logout: () => Promise<void>
   setIsAuth: React.Dispatch<React.SetStateAction<boolean>>
+  SigninAndSinupWithGithub: () => Promise<void | React.JSX.Element>
+  signup: (props: EmailAndPasswordProps) => Promise<void | React.JSX.Element>
+  signin: (props: EmailAndPasswordProps) => Promise<void | React.JSX.Element>
 }
 
 const AuthContext = React.createContext<AuthContextProps>(
@@ -13,12 +30,105 @@ const AuthContext = React.createContext<AuthContextProps>(
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuth, setIsAuth] = React.useState(true)
+  const [user, setUser] = React.useState<User>(null)
+
+  const signup = async ({ email, password }: EmailAndPasswordProps) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (error) {
+      return <Redirect href="/" />
+    }
+    console.log(data)
+    return setIsAuth(true)
+  }
+
+  const signin = async ({ email, password }: EmailAndPasswordProps) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+    console.log(error)
+    if (error) {
+      return <Redirect href="/" />
+    }
+    console.log(data)
+
+    return setIsAuth(true)
+  }
+
+  const logout = async () => {
+    const { error } = await supabase.auth.signOut()
+
+    setIsAuth(false)
+    console.log(error)
+  }
+
+  const SigninAndSinupWithGithub = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+    })
+    // http://localhost:8081
+    if (error) {
+      return <Redirect href="/" />
+    }
+
+    console.log(data)
+    // return <Redirect href={data?.url} />
+    return setIsAuth(true)
+  }
+
+  const createSessionFromUrl = async (url: string) => {
+    const { params, errorCode } = QueryParams.getQueryParams(url)
+
+    if (errorCode) throw new Error(errorCode)
+    const { access_token, refresh_token } = params
+
+    if (!access_token) return
+
+    const { data, error } = await supabase.auth.setSession({
+      access_token,
+      refresh_token,
+    })
+    if (error) throw error
+    return data.session
+  }
+
+  const performOAuth = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo,
+        skipBrowserRedirect: true,
+      },
+    })
+    console.log(data)
+
+    const res = await WebBrowser.openAuthSessionAsync(
+      data?.url ?? '',
+      redirectTo,
+    )
+
+    console.log(error)
+
+    if (res.type === 'success') {
+      const { url } = res
+      await createSessionFromUrl(url)
+    }
+  }
 
   return (
     <AuthContext.Provider
       value={{
+        user,
+        signin,
+        logout,
         isAuth,
+        signup,
         setIsAuth,
+        SigninAndSinupWithGithub: performOAuth,
       }}
     >
       {children}

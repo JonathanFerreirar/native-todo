@@ -12,7 +12,9 @@ import ThemedView from '@/primitive/ThemedView'
 import Logo from '../assets/images/logo.png'
 
 const Signup = () => {
-  const { isAuth, setIsAuth } = useAuth()
+  const { isAuth, setIsAuth, signup } = useAuth()
+  const [email, setEmail] = React.useState('')
+  const [password, setPassword] = React.useState('')
 
   if (isAuth) {
     return <Redirect href="(auth)/work" />
@@ -28,12 +30,31 @@ const Signup = () => {
         />
 
         <View className="w-full flex-col items-center space-y-5">
-          <Input placeholder="email@gmail.com" />
-          <Input placeholder="password" />
+          <Input
+            placeholder="email@gmail.com"
+            onChangeText={(e) => {
+              setEmail(e)
+            }}
+          />
+          <Input
+            placeholder="password"
+            onChangeText={(e) => {
+              setPassword(e)
+            }}
+          />
           <Input placeholder="confirm password" />
         </View>
 
-        <Button variant="primary" customStyle="mt-8">
+        <Button
+          variant="primary"
+          customStyle="mt-8"
+          onPress={() => {
+            signup({
+              email,
+              password,
+            })
+          }}
+        >
           <Link href="/signup">Sign-up</Link>
         </Button>
         <Link href="/" asChild>
