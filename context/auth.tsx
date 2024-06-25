@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import React from 'react'
 import { Linking } from 'react-native'
@@ -68,20 +69,6 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     console.log(error)
   }
 
-  const SigninAndSinupWithGithub = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-    })
-    // http://localhost:8081
-    if (error) {
-      return <Redirect href="/" />
-    }
-
-    console.log(data)
-    // return <Redirect href={data?.url} />
-    return setIsAuth(true)
-  }
-
   const createSessionFromUrl = async (url: string) => {
     const { params, errorCode } = QueryParams.getQueryParams(url)
 
@@ -106,14 +93,11 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         skipBrowserRedirect: true,
       },
     })
-    console.log(data)
 
     const res = await WebBrowser.openAuthSessionAsync(
       data?.url ?? '',
       redirectTo,
     )
-
-    console.log(error)
 
     if (res.type === 'success') {
       const { url } = res

@@ -3,7 +3,6 @@ import { Image, Pressable, Text, View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { Link, Redirect } from 'expo-router'
 
-import DismissKeyboard from '@/components/keyboard/dismiss'
 import { useAuth } from '@/context/auth'
 import Button from '@/primitive/Button'
 import Input from '@/primitive/Input'
@@ -31,8 +30,8 @@ const Login = () => {
   return (
     <ThemedView className="h-full flex-col items-center justify-center px-5 pt-24">
       <Image
-        alt="Logo code community"
         source={Logo}
+        alt="Logo code community"
         className="absolute top-24 h-[100px] w-[100px] object-cover"
       />
 
