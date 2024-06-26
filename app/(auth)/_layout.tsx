@@ -1,7 +1,9 @@
 import React from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Image, Pressable, Text, View } from 'react-native'
 import { Redirect, Tabs } from 'expo-router'
 
+import LogoutHeader from '@/components/auth/logout/logoutHeader'
+import Profile from '@/components/profile/profile'
 import { Colors } from '@/constants/Colors'
 import { useAuth } from '@/context/auth'
 import { useColorScheme } from '@/hooks/useColorScheme'
@@ -9,15 +11,12 @@ import TabBarIcon from '@/navigation/TabBarIcon'
 
 const TabLayout = () => {
   const colorScheme = useColorScheme()
-  const { isAuth, logout } = useAuth()
+  const { logout, user } = useAuth()
 
-  if (!isAuth) {
+  if (!user?.user_metadata) {
     return <Redirect href="/" />
   }
-
-  const handleLogout = async () => {
-    await logout()
-  }
+  const { avatar_url: url, name } = user.user_metadata
 
   return (
     <Tabs
@@ -38,39 +37,10 @@ const TabLayout = () => {
             />
           ),
           headerLeft: () => {
-            return (
-              <View
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 100,
-                  marginLeft: 20,
-                  backgroundColor: '#fff',
-                }}
-              ></View>
-            )
+            return <Profile url={url} alt={name} />
           },
           headerRight: () => {
-            return (
-              <Pressable
-                onPress={handleLogout}
-                style={{
-                  gap: 10,
-                  marginRight: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    color: '#fff',
-                  }}
-                >
-                  Sair
-                </Text>
-                <TabBarIcon size={20} name="log-out-outline" color={'#fff'} />
-              </Pressable>
-            )
+            return <LogoutHeader logout={logout} />
           },
         }}
       />
@@ -89,39 +59,10 @@ const TabLayout = () => {
             />
           ),
           headerLeft: () => {
-            return (
-              <View
-                style={{
-                  width: 30,
-                  height: 30,
-                  borderRadius: 100,
-                  marginLeft: 20,
-                  backgroundColor: '#fff',
-                }}
-              ></View>
-            )
+            return <Profile url={url} alt={name} />
           },
           headerRight: () => {
-            return (
-              <Pressable
-                onPress={handleLogout}
-                style={{
-                  gap: 10,
-                  marginRight: 20,
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <Text
-                  style={{
-                    color: '#fff',
-                  }}
-                >
-                  Sair
-                </Text>
-                <TabBarIcon size={20} name="log-out-outline" color={'#fff'} />
-              </Pressable>
-            )
+            return <LogoutHeader logout={logout} />
           },
         }}
       />

@@ -13,12 +13,20 @@ import cn from '@/utils/cn'
 type ButtonProps = {
   children: React.ReactNode
   customStyle?: string
+  customTextStyle?: string
   variant?: 'primary' | 'outline' | 'link'
 } & React.ComponentPropsWithoutRef<typeof Pressable>
 
 const Button = React.forwardRef<View | null, ButtonProps>(
   (
-    { children, style, customStyle, variant = 'primary', ...pressableProps },
+    {
+      children,
+      style,
+      customStyle,
+      customTextStyle,
+      variant = 'primary',
+      ...pressableProps
+    },
     ref,
   ) => {
     const variantTypes = {
@@ -34,7 +42,7 @@ const Button = React.forwardRef<View | null, ButtonProps>(
         {...pressableProps}
         className={cn(variantTypes[variant], customStyle)}
       >
-        <Text className="text-xl font-semibold text-white">{children}</Text>
+        {children}
       </Pressable>
     )
   },

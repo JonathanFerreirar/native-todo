@@ -14,11 +14,13 @@ const Login = () => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  const { isAuth, signin, SigninAndSinupWithGithub } = useAuth()
+  const { user, signin, SigninAndSinupWithGithub } = useAuth()
 
-  if (isAuth) {
+  if (user?.user_metadata) {
     return <Redirect href="(auth)/work" />
   }
+
+  console.log(user?.user_metadata)
 
   const handleSignin = async () => {
     await signin({
@@ -51,11 +53,11 @@ const Login = () => {
       </View>
 
       <Button customStyle="mt-8" onPress={handleSignin}>
-        Sign-in
+        <Text className="font-semibold text-white">Sign-in</Text>
       </Button>
       <Link href="/signup" asChild>
-        <Button variant="link" customStyle="mt-8">
-          <Text className="text-sm">
+        <Button variant="link" customStyle="mt-8 border-b-none">
+          <Text className="text-sm font-semibold text-white">
             Do You need to <Text className="text-primary">register?</Text>
           </Text>
         </Button>

@@ -12,11 +12,11 @@ import ThemedView from '@/primitive/ThemedView'
 import Logo from '../assets/images/logo.png'
 
 const Signup = () => {
-  const { isAuth, setIsAuth, signup } = useAuth()
+  const { user, signup, SigninAndSinupWithGithub } = useAuth()
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  if (isAuth) {
+  if (user?.user_metadata) {
     return <Redirect href="(auth)/work" />
   }
 
@@ -55,11 +55,13 @@ const Signup = () => {
             })
           }}
         >
-          <Link href="/signup">Sign-up</Link>
+          <Link href="/signup" className="font-semibold text-white">
+            Sign-up
+          </Link>
         </Button>
         <Link href="/" asChild>
-          <Button variant="link" customStyle="mt-8">
-            <Text className="text-sm">
+          <Button variant="link" customStyle="mt-8 border-b-none">
+            <Text className="text-sm font-semibold text-white">
               Already have an <Text className="text-primary">account?</Text>
             </Text>
           </Button>
@@ -73,9 +75,7 @@ const Signup = () => {
 
         <Pressable
           className="mt-10 h-[60px] w-[60px] items-center justify-center rounded-full"
-          onPress={() => {
-            setIsAuth(true)
-          }}
+          onPress={SigninAndSinupWithGithub}
         >
           <View className="w-full flex-row items-center justify-center">
             <AntDesign name="github" size={60} color="white" />

@@ -1,4 +1,6 @@
+/* eslint-disable camelcase */
 import { createClient } from '@supabase/supabase-js'
+import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import * as SecureStore from 'expo-secure-store'
 
 import 'react-native-url-polyfill/auto'
@@ -27,5 +29,22 @@ const supabase = createClient(
     },
   },
 )
+
+export const createSessionFromUrl = async (url: string) => {
+  const { params, errorCode } = QueryParams.getQueryParams(url)
+
+  if (errorCode) throw new Error(errorCode)
+  const { access_token, refresh_token } = params
+
+  if (!access_token) return
+
+  const { data, error } = await supabase.auth.setSession({
+    access_token,
+    refresh_token,
+  })
+  if (error) throw error
+
+  return data
+}
 
 export default supabase

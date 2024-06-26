@@ -1,27 +1,19 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable camelcase */
 import React from 'react'
-import { Linking } from 'react-native'
 import { makeRedirectUri } from 'expo-auth-session'
-import * as QueryParams from 'expo-auth-session/build/QueryParams'
 import { Redirect } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 
-import supabase from '@/utils/supabase'
+import supabase, { createSessionFromUrl } from '@/utils/supabase'
 
-import { AuthProviderProps, EmailAndPasswordProps } from './authTypes'
+import { AuthProviderProps, EmailAndPasswordProps, User } from './authTypes'
 
 WebBrowser.maybeCompleteAuthSession()
 
 const redirectTo = makeRedirectUri()
 
-type User = null | any
-
 type AuthContextProps = {
   user: User
-  isAuth: boolean
   logout: () => Promise<void>
-  setIsAuth: React.Dispatch<React.SetStateAction<boolean>>
   SigninAndSinupWithGithub: () => Promise<void | React.JSX.Element>
   signup: (props: EmailAndPasswordProps) => Promise<void | React.JSX.Element>
   signin: (props: EmailAndPasswordProps) => Promise<void | React.JSX.Element>
@@ -32,7 +24,6 @@ const AuthContext = React.createContext<AuthContextProps>(
 )
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [isAuth, setIsAuth] = React.useState(true)
   const [user, setUser] = React.useState<User>(null)
 
   const signup = async ({ email, password }: EmailAndPasswordProps) => {
@@ -44,8 +35,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
     if (error) {
       return <Redirect href="/" />
     }
-    console.log(data)
-    return setIsAuth(true)
+
+    return setUser(data.user as User)
   }
 
   const signin = async ({ email, password }: EmailAndPasswordProps) => {
@@ -53,39 +44,21 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
       email,
       password,
     })
-    console.log(error)
+
     if (error) {
       return <Redirect href="/" />
     }
-    console.log(data)
 
-    return setIsAuth(true)
+    return setUser(data?.user as unknown as User)
   }
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut()
 
-    setIsAuth(false)
-    console.log(error)
+    setUser(null)
   }
 
-  const createSessionFromUrl = async (url: string) => {
-    const { params, errorCode } = QueryParams.getQueryParams(url)
-
-    if (errorCode) throw new Error(errorCode)
-    const { access_token, refresh_token } = params
-
-    if (!access_token) return
-
-    const { data, error } = await supabase.auth.setSession({
-      access_token,
-      refresh_token,
-    })
-    if (error) throw error
-    return data.session
-  }
-
-  const performOAuth = async () => {
+  const SigninAndSinupWithGithub = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
@@ -101,7 +74,9 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (res.type === 'success') {
       const { url } = res
-      await createSessionFromUrl(url)
+      const data = await createSessionFromUrl(url)
+
+      setUser(data?.user as User)
     }
   }
 
@@ -111,10 +86,8 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         signin,
         logout,
-        isAuth,
         signup,
-        setIsAuth,
-        SigninAndSinupWithGithub: performOAuth,
+        SigninAndSinupWithGithub,
       }}
     >
       {children}
