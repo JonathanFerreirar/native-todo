@@ -1,5 +1,6 @@
-import { ScrollView, ScrollViewProps } from 'react-native'
+import { ScrollView, ScrollViewProps, View } from 'react-native'
 
+import DismissKeyboard from '@/components/keyboard/dismiss'
 import { useThemeColor } from '@/hooks/useThemeColor'
 
 export type ThemedViewProps = ScrollViewProps & {
@@ -19,11 +20,9 @@ const ThemedView = ({
   )
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={[{ backgroundColor, padding: 5 }, style]}
-      {...otherProps}
-    />
+    <DismissKeyboard>
+      <View style={[{ backgroundColor, padding: 5 }, style]} {...otherProps} />
+    </DismissKeyboard>
   )
 }
 

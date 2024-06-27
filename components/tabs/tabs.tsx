@@ -18,7 +18,12 @@ const TabsComponent = ({ onPressTab, children }: TabsProps) => {
   }
 
   return (
-    <View className="w-full flex-1">
+    <View
+      className="w-full flex-1 bg-transparent"
+      onTouchMove={(event) => {
+        console.log(event.nativeEvent.locationY)
+      }}
+    >
       <View className="flex-row items-center justify-between">
         <ButtonTab
           tab="work"

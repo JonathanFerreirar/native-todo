@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Pressable, Text, View } from 'react-native'
+import { ActivityIndicator, Image, Pressable, Text, View } from 'react-native'
 import { AntDesign } from '@expo/vector-icons'
 import { Link, Redirect } from 'expo-router'
 
@@ -14,13 +14,15 @@ const Login = () => {
   const [email, setEmail] = React.useState('')
   const [password, setPassword] = React.useState('')
 
-  const { user, signin, SigninAndSinupWithGithub } = useAuth()
+  const { user, loading, signin, SigninAndSinupWithGithub } = useAuth()
+
+  if (loading) {
+    return <ActivityIndicator />
+  }
 
   if (user?.user_metadata) {
     return <Redirect href="(auth)/work" />
   }
-
-  console.log(user?.user_metadata)
 
   const handleSignin = async () => {
     await signin({

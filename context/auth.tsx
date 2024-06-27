@@ -13,6 +13,7 @@ const redirectTo = makeRedirectUri()
 
 type AuthContextProps = {
   user: User
+  loading: boolean
   logout: () => Promise<void>
   SigninAndSinupWithGithub: () => Promise<void | React.JSX.Element>
   signup: (props: EmailAndPasswordProps) => Promise<void | React.JSX.Element>
@@ -24,7 +25,20 @@ const AuthContext = React.createContext<AuthContextProps>(
 )
 
 const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [loading, setLoading] = React.useState(true)
   const [user, setUser] = React.useState<User>(null)
+
+  React.useEffect(() => {
+    const getUser = async () => {
+      const { data } = await supabase.auth.getUser()
+
+      if (data?.user) {
+        setUser(data.user as unknown as User)
+      }
+      setLoading(false)
+    }
+    getUser()
+  }, [])
 
   const signup = async ({ email, password }: EmailAndPasswordProps) => {
     const { data, error } = await supabase.auth.signUp({
@@ -87,6 +101,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         signin,
         logout,
         signup,
+        loading,
         SigninAndSinupWithGithub,
       }}
     >

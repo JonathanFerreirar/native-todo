@@ -1,36 +1,166 @@
 import React from 'react'
+import { FlatList, View } from 'react-native'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 import TabsComponent, { Tabs } from '@/components/tabs/tabs'
-import ProjectTask from '@/components/taks/projects'
-import WorkTask from '@/components/taks/work'
+import Task from '@/components/taks/task'
 import ThemedView from '@/primitive/ThemedView'
 
+dayjs.extend(relativeTime)
+
+const now = dayjs()
 const HomeScreen = () => {
   const [tab, setTab] = React.useState<Tabs>('work')
 
   const handleChangeTab = (tab: Tabs) => {
     setTab(tab)
   }
-  return (
-    <ThemedView className="mx-auto h-screen w-full flex-1 items-center justify-center p-5">
-      <TabsComponent onPressTab={handleChangeTab}>
-        {tab === 'work' && (
-          <React.Fragment>
-            <WorkTask />
-            <WorkTask />
-            <WorkTask />
-          </React.Fragment>
-        )}
+  // {dayjs(order.created_at).fromNow()}
 
-        {tab === 'projects' && (
-          <React.Fragment>
-            <ProjectTask />
-            <ProjectTask />
-            <ProjectTask />
-          </React.Fragment>
-        )}
+  const tasks = [
+    {
+      category: 'work',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'projects',
+      isFixed: true,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+    {
+      category: 'work',
+      isFixed: false,
+      title: 'Developer mobile app',
+      description: 'To developer a mobile app you need to',
+      createAt: now.subtract(1, 'hour').toISOString(),
+    },
+  ]
+
+  return (
+    <View className="mx-auto h-screen w-full flex-1 items-center justify-center bg-[#030013] p-5">
+      <TabsComponent onPressTab={handleChangeTab}>
+        <FlatList
+          data={tasks}
+          showsVerticalScrollIndicator={false}
+          renderItem={(item) => {
+            return item.item.category === tab ? (
+              <Task type={item.item.category as Tabs} />
+            ) : null
+          }}
+        />
       </TabsComponent>
-    </ThemedView>
+    </View>
   )
 }
 

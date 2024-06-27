@@ -21,6 +21,8 @@
     "*.js"
   ],
   "rules": {
+    "new-cap": "off",
+    "camelcase": "off",
     "react/display-name": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "import/prefer-default-export": "off",
@@ -93,6 +95,7 @@
         "*.jsx"
       ],
       "rules": {
+        "camelcase": "error",
         "import/prefer-default-export": "error",
         "@typescript-eslint/consistent-type-definitions": [
           "error",

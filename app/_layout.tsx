@@ -38,6 +38,11 @@ const RootLayout = () => {
           <Stack.Screen name="index" options={{ headerShown: false }} />
           <Stack.Screen name="signup" options={{ headerShown: false }} />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="(modal)/create"
+            options={{ headerShown: false, presentation: 'modal' }}
+          />
+
           <Stack.Screen name="+not-found" />
         </Stack>
       </AuthProvider>

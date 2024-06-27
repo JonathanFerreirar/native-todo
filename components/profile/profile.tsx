@@ -29,9 +29,11 @@ const Profile = ({ url, alt, size = 'default' }: ProfileProps) => {
         imgSize,
       )}
     >
-      <Text className={cn('text-xl font-bold', isBig && 'text-8xl')}>
-        {alt.charAt(0).toLocaleUpperCase()}
-      </Text>
+      {alt && (
+        <Text className={cn('text-xl font-bold', isBig && 'text-8xl')}>
+          {alt.charAt(0).toLocaleUpperCase()}
+        </Text>
+      )}
     </View>
   )
 }

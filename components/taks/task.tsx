@@ -2,22 +2,32 @@ import React from 'react'
 import { Text, View } from 'react-native'
 import { AntDesign, FontAwesome5, Octicons } from '@expo/vector-icons'
 
+import Icons from '@/primitive/Icons'
+
+import { Tabs } from '../tabs/tabs'
+
 type Icons = typeof AntDesign | typeof FontAwesome5 | typeof Octicons
 
 type ProjectsProps = {
-  Icon: React.ComponentProps<Icons>['name']
+  type: Tabs
 }
 
-const TaskLayout = ({ Icon }: ProjectsProps) => {
+const Task = ({ type }: ProjectsProps) => {
+  const Icon =
+    type === 'projects' ? (
+      <Icons.ProjectIcon className="h-3 w-3" />
+    ) : (
+      <Icons.WorkIcon className="h-3 w-3" />
+    )
   return (
-    <View className="flex-row items-start justify-between gap-y-2 border-b border-b-slate-800 p-2 pb-4">
+    <View className="flex-row items-start justify-between gap-y-2 border-b border-b-slate-800 bg-transparent pb-4">
       <View className="w-full max-w-[220px] flex-col items-start gap-y-1">
         <View className="max-w-[220px] flex-row items-center gap-3">
           {Icon}
           <Text className="text-xl text-white">
             {'Desenvolver app mobile Desenvolver app mobile Desenvolver app mobile'.slice(
               0,
-              20,
+              21,
             )}
             ...
           </Text>
@@ -42,4 +52,4 @@ const TaskLayout = ({ Icon }: ProjectsProps) => {
   )
 }
 
-export default TaskLayout
+export default Task
