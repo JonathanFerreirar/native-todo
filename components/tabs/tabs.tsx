@@ -3,7 +3,7 @@ import { View } from 'react-native'
 
 import ButtonTab from './fragments/button'
 
-export type Tabs = 'work' | 'projects'
+export type Tabs = 'work' | 'project'
 
 type TabsProps = React.PropsWithChildren & {
   onPressTab: (tab: Tabs) => void
@@ -18,12 +18,7 @@ const TabsComponent = ({ onPressTab, children }: TabsProps) => {
   }
 
   return (
-    <View
-      className="w-full flex-1 bg-transparent"
-      onTouchMove={(event) => {
-        console.log(event.nativeEvent.locationY)
-      }}
-    >
+    <View className="w-full flex-1 bg-transparent">
       <View className="flex-row items-center justify-between">
         <ButtonTab
           tab="work"
@@ -35,10 +30,10 @@ const TabsComponent = ({ onPressTab, children }: TabsProps) => {
           Work
         </ButtonTab>
         <ButtonTab
-          tab="projects"
+          tab="project"
           currentTab={tab}
           onPress={() => {
-            handleTabChange('projects')
+            handleTabChange('project')
           }}
         >
           Projects

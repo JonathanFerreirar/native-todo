@@ -1,4 +1,3 @@
-import { Session } from '@supabase/supabase-js'
 export type AuthProviderProps = React.PropsWithChildren
 
 export type EmailAndPasswordProps = {

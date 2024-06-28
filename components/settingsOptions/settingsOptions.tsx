@@ -1,8 +1,7 @@
 import React from 'react'
 import { FlatList, Text, View } from 'react-native'
 import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons'
-
-import Button from '@/primitive/Button'
+import { router } from 'expo-router'
 
 import OptionSettings from './fragment/option'
 
@@ -14,7 +13,7 @@ const SettingsOptions = ({ logout }: SettingsOptionsProps) => {
   const optionsSettings = [
     {
       label: 'Profile',
-      onPress: () => console.warn('profile'),
+      onPress: () => router.push('/(modal)/profile'),
       icon: <Ionicons name="person-circle-outline" size={24} color="white" />,
     },
     {

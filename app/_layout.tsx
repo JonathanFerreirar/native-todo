@@ -42,6 +42,10 @@ const RootLayout = () => {
             name="(modal)/create"
             options={{ headerShown: false, presentation: 'modal' }}
           />
+          <Stack.Screen
+            name="(modal)/profile"
+            options={{ headerShown: false, presentation: 'modal' }}
+          />
 
           <Stack.Screen name="+not-found" />
         </Stack>

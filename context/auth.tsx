@@ -5,7 +5,7 @@ import * as WebBrowser from 'expo-web-browser'
 
 import supabase, { createSessionFromUrl } from '@/utils/supabase'
 
-import { AuthProviderProps, EmailAndPasswordProps, User } from './authTypes'
+import { AuthProviderProps, EmailAndPasswordProps, User } from './types/auth'
 
 WebBrowser.maybeCompleteAuthSession()
 
